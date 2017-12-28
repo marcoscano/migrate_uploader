@@ -1,0 +1,12 @@
+services:
+  migrate_uploader.helpers:
+    class: '\Drupal\migrate_uploader\Helpers'
+    arguments:
+      - '@plugin.manager.migration'
+      - '@logger.factory'
+  migrate_uploader.route_subscriber:
+    class: 'Drupal\migrate_uploader\Routing\RouteSubscriber'
+    arguments:
+      - '@migrate_uploader.helpers'
+    tags:
+      - { name: event_subscriber }

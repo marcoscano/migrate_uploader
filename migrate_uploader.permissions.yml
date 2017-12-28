@@ -1,0 +1,3 @@
+'upload migration source files':
+  title: 'Upload migration source files'
+  description: 'Grants access to the form used to upload files to be used as sources in migrations.'

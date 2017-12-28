@@ -1,0 +1,8 @@
+name: Migrate Uploader CSV
+description: 'Extends the migrate_source_csv plugin to provide a CSV source plugin compatible with Migrate Uploader.'
+type: module
+package: Migration
+core: 8.x
+dependencies:
+  - migrate_uploader:migrate_uploader
+  - migrate_source_csv:migrate_source_csv

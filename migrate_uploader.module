@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the migrate_uploader module.
+ */
+
+use Drupal\Core\Url;
+use Drupal\migrate_uploader\MigrateUploaderInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function migrate_uploader_form_migration_execute_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $migration_name = \Drupal::routeMatch()->getParameter('migration');
+  if (!$migration_name) {
+    return;
+  }
+  /** @var \Drupal\migrate\Plugin\MigrationInterface $migration */
+  $migration = \Drupal::service('plugin.manager.migration')->createInstance($migration_name);
+  $source_plugin = $migration->getSourcePlugin();
+  if (!($source_plugin instanceof MigrateUploaderInterface)) {
+    return;
+  }
+  // Retrieve the file that is going to be used for this operation, and output
+  // some information about it to the user.
+  $source = $migration->get('source');
+  $file = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $source[$source_plugin::getFilePathKey()]]);
+  if (!empty($file)) {
+    $file = reset($file);
+    /** @var \Drupal\file\Entity\File $file */
+    drupal_set_message(t('The source file that will be used for this operation is "%filepath", uploaded on "%uploaded" by user "%username".<br />In order to upload a new file please go to the <a href="@upload_url">upload form</a>.<br />In order to check the analysis of this file go to the group <a href="@overview_url">overview page</a>.', [
+      '%filepath' => $file->getFileUri(),
+      '%uploaded' => date("Y-M-d H:i:s", $file->getCreatedTime()),
+      '%username' => $file->getOwner()->getDisplayName(),
+      '@upload_url' => Url::fromRoute('migrate_uploader.upload')->toString(),
+      '@overview_url' => Url::fromRoute('entity.migration.list', [
+        'migration_group' => $migration->get('migration_group'),
+      ])->toString(),
+    ]));
+  }
+}

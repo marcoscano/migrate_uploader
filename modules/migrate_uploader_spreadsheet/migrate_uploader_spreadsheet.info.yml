@@ -1,0 +1,8 @@
+name: Migrate Uploader Spreadsheet
+description: 'Extends the migrate_spreadsheet plugin to provide a Spreadsheet source plugin compatible with Migrate Uploader.'
+type: module
+package: Migration
+core: 8.x
+dependencies:
+  - migrate_uploader:migrate_uploader
+  - migrate_spreadsheet:migrate_spreadsheet

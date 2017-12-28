@@ -1,0 +1,7 @@
+migrate_uploader.upload:
+  path: '/admin/structure/migrate/upload'
+  defaults:
+    _form: '\Drupal\migrate_uploader\Form\UploadForm'
+    _title: 'Upload source file'
+  requirements:
+    _permission: 'upload migration source files'

@@ -1,0 +1,9 @@
+name: Migrate Uploader
+description: 'Allows to recurrently upload files to be used as source in a migration. You should use this module in conjunction with another module(s) that provide the actual source plugins, such as "migrate_uploader_csv", "migrate_uploader_spreadhseet", etc.'
+type: module
+package: Migration
+core: 8.x
+dependencies:
+  - drupal:migrate (>=8.3)
+  - migrate_tools:migrate_tools
+  - migrate_plus:migrate_plus
